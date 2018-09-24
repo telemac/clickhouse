@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  clickhouse-server:
+    image: yandex/clickhouse-server
+#    command: ["start", "--insecure","--advertise-host=cloud.plugis.com"]
+    container_name: clickhouse-server
+    network_mode: "bridge"
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - "./config.xml:/etc/clickhouse-server/config.xml"
+      - "./data/log/clickhouse-server/:/var/log/clickhouse-server/"
+#      - "./data/log/clickhouse-server.log:/var/log/clickhouse-server/clickhouse-server.log"
+#      - "./data/log/clickhouse-server.err.log:/var/log/clickhouse-server/clickhouse-server.err.log"
+    restart: on-failure
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50k"
+        max-file: "10"
