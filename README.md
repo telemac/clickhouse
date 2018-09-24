@@ -39,3 +39,37 @@ SELECT 1 + 1
 
 Here is the [OnTime](https://clickhouse.yandex/docs/en/getting_started/example_datasets/ontime/) dataset sample
 
+The sample_ontime directory contains the files to run this test.
+
+The following will :
+- download sample files
+- create the table
+- load 
+
+```
+cd sample_ontime
+sh download.sh
+cat create_table.sql | docker run -i --rm --link clickhouse-server:clickhouse-server yandex/clickhouse-client --host clickhouse-server
+sh load.sh
+```
+
+Now, ne connect to the server with the cli :
+```
+docker run -it --rm --link clickhouse-server:clickhouse-server yandex/clickhouse-client --host clickhouse-server
+```
+and we issue some requests :
+
+
+```
+show tables
+```
+
+```
+select count(*) from ontime
+```
+
+```
+select avg(c1) from (select Year, Month, count(*) as c1 from ontime group by Year, Month);
+```
+
+Experiment with other requests of [this page](https://clickhouse.yandex/docs/en/getting_started/example_datasets/ontime/)
