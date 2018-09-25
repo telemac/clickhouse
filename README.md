@@ -73,3 +73,30 @@ select avg(c1) from (select Year, Month, count(*) as c1 from ontime group by Yea
 ```
 
 Experiment with other requests of [this page](https://clickhouse.yandex/docs/en/getting_started/example_datasets/ontime/)
+
+
+### Test results
+
+Import duration
+```
+real	31m1.694s
+user	15m12.788s
+sys	1m44.384s
+```
+
+177920306 / 1860 = **95 656 rows/s** imported
+
+
+First select count(*) from ontime
+```
+34aa739d94e1 :) select count(*) from ontime
+
+SELECT count(*)
+FROM ontime 
+
+┌───count()─┐
+│ 177920306 │
+└───────────┘
+
+1 rows in set. Elapsed: 0.802 sec. Processed 177.92 million rows, 177.92 MB (221.72 million rows/s., 221.72 MB/s.) 
+```
